@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portail d'évaluation</title>
+    <link rel="stylesheet" href="design.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
+</head>
+
+<body>
+    <h1>Portail d'évaluation</h1>
+    <div class="container">
+        <!-- Left panel with input and retrieve button -->
+        <div class="left-panel">
+            <div class="input-group">
+                <label for="input-field">Cherchez un étudiant:</label>
+                <input type="text" id="cin" placeholder="Saisissez n° CIN...">
+                <button id="retrieve-button" class="retrieve-button">Récupérez</button>
+                <div id="student" class="result"></div>
+            </div>
+
+            <!-- Bottom centered buttons -->
+            <div class="jury-buttons">
+                <!-- button onclick="encadrant()">Encadrant</button -->
+                <button onclick="window.open('encadrant.html', '_blank')">Encadrant</button>
+                <button onclick="rapporteur()">Rapporteur</button>
+            </div>
+            <br>
+
+            <div>
+                <label for="p1">Note #1 : </label>
+                <input type="number" min="0" max="3" step="0.25" id="p1" placeholder="*** (3 points)">
+            </div>
+            <div>
+                <label for="p2">Note #2 : </label>
+                <input type="number" min="0" max="3" step="0.25" id="p2" placeholder="*** (3 points)">
+            </div>
+            <div>
+                <label for="p3">Note #3 : </label>
+                <input type="number" min="0" max="3" step="0.25" id="p3" placeholder="*** (3 points)">
+            </div>
+            <br>
+
+            <label class="lbl">Note finale</label>
+            <div id="note" class="dynamic-label"></div>
+            <br>
+            <button id="saveBtn">Sauvegardez</button>
+            <button id="printBtn">Imprimez</button>
+        </div>
+        <!-- Right panel for PDF viewer -->
+        <div class="right-panel" id="rapport">
+            <p>Chargez un PDF ici</p>
+            <!-- PDF viewer will be loaded here -->
+        </div>
+    </div>
+
+
+
+    <!-- JavaScript code -->
+    <script type="module" src="script.js" type="text/javascript"></script>
+    <!-- script src="dist/bundle.js"></script -->
+
+</body>
+
+</html>

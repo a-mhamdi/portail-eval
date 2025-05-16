@@ -1,0 +1,202 @@
+:root {
+    --bg-color: #f5f5f5;
+    --card-bg: #ffffff;
+    --text-color: #333333;
+    --text-secondary: #0c5460;
+    --primary-color: #2196F3;
+    --accent-color: #4CAF50;
+    --accent-hover: #45a049;
+    --border-color: #dddddd;
+    --highlight-bg: #e7f3fe;
+    --highlight-border: #2196F3;
+    --border-radius: 8px;
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-size: 3em;
+            background: linear-gradient(145deg, #539ad4, #0b5e9c);
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            text-shadow: 2px 2px 4px rgba(125, 196, 250, 0.3);
+            padding: 15px;
+            display: inline-block;
+            border-radius: 10px;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid #9acffa;
+        }
+
+        h1:hover {
+            transform: scale(1.02);
+            text-shadow: 3px 3px 6px rgba(125, 196, 250, 0.5);
+            box-shadow: 0 8px 15px rgba(125, 196, 250, 0.2);
+        }
+
+.container {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 100px;
+    width: 95%;
+    border-radius: 16px;
+    padding: 20px;
+}
+
+.left-panel {
+    flex: 1.15;
+    padding: 25px;
+    background: linear-gradient(145deg, #f0f0f0, #ffffff);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.07);
+    transition: all 0.3s ease;
+}
+
+.left-panel:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+}
+
+.right-panel {
+    flex: 4;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #2d3748;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.result {
+    background-color: var(--highlight-bg);
+    border-left: 6px solid var(--highlight-border);
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    transition: var(--transition);
+}
+
+.note-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+input[type="text"],
+input[type="number"] {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+input[type="text"],
+input[type="number"]:focus {
+    border-color: #4299e1;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+    outline: none;
+}
+
+button {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(45deg, #4299e1, #667eea);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    background: linear-gradient(45deg, #3182ce, #5a67d8);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.bottom-buttons {
+    text-align: center;
+    width: 90%;
+    max-width: 1200px;
+}
+
+.bottom-buttons button {
+    margin: 0 15px;
+    min-width: 150px;
+}
+
+.bottom-buttons button:nth-child(2) {
+    background: linear-gradient(45deg, #ed64a6, #ed8936);
+}
+
+.bottom-buttons button:nth-child(2):hover {
+    background: linear-gradient(45deg, #d53f8c, #dd6b20);
+}
+
+.retrieve-button {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.right-panel p {
+    font-size: 18px;
+    font-weight: 500;
+    color: #718096;
+    position: relative;
+    z-index: 1;
+}
