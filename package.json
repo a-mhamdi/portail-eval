@@ -11,6 +11,9 @@
   },
   "scripts": {
     "dev": "nodemon server.js",
-    "build": "webpack --mode production"
+    "build": "webpack --mode development --watch"
+  },
+  "devDependencies": {
+    "webpack-cli": "^6.0.1"
   }
 }
