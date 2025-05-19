@@ -46,7 +46,7 @@ document.getElementById('retrieve-button').addEventListener('click', async funct
         });
 });
 
-document.getElementById('saveBtn').addEventListener('click', function () {
+document.getElementById('note-president').addEventListener('submit', function () {
 
     const opts = {
                 method: 'POST',
@@ -84,22 +84,29 @@ function updateSum() {
 
             const p1 = parseFloat(document.getElementById('p1').value) || 0;
             const p2 = parseFloat(document.getElementById('p2').value) || 0;
-            const ptot = p1 + p2;
+            const p3 = parseFloat(document.getElementById('p3').value) || 0;
+            const p4 = parseFloat(document.getElementById('p4').value) || 0;
+            const ptot = p1 + p2 + p3 + p4;
             document.getElementById('note').innerText = ptot;
             notePresident = {
                 p1: p1,
                 p2: p2,
+                p3: p3,
+                p4: p4,
                 ptot: ptot
             };
 }
 
         document.getElementById('p1').addEventListener('input', updateSum);
         document.getElementById('p2').addEventListener('input', updateSum);
+        document.getElementById('p3').addEventListener('input', updateSum);
+        document.getElementById('p4').addEventListener('input', updateSum);
 
 document.getElementById('printBtn').addEventListener('click', function () {
     print();
 });
 
 function print() {
-    console.log('Impression en cours...');
+    const cin = '123';
+    window.open(`pvs/ne-${cin}.pdf`, '_blank');
 }

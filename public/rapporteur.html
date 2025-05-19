@@ -120,34 +120,34 @@
 
 <body>
 
-    <h1>Notes de l'encadrant</h1>
+    <h1>Notes du rapporteur</h1>
     <div class="form-container">
         <h2>Saisissez vos notes</h2>
 
-        <form id="note-encadrant">
+        <form id="note-rapporteur">
             <div class="note-group">
-                <label for="e1">Assiduité et comportement</label>
-                <input id="e1" placeholder="Comportement (2)" type="number" min="0" max="2" step="0.25">
+                <label for="r1">Note #1 :</label>
+                <input id="r1" placeholder="Style de rédaction (4)" type="number" min="0" max="4" step="0.25">
             </div>
 
             <div class="note-group">
-                <label for="e2">Motivation et rigueur</label>
-                <input id="e2" placeholder="Implication (3)" type="number" min="0" max="3" step="0.25">
+                <label for="r2">Note #2 :</label>
+                <input id="r2" placeholder="Qualité et clarté (4)" type="number" min="0" max="4" step="0.25">
             </div>
 
             <div class="note-group">
-                <label for="e3">Etat de l'art: analyse et critique</label>
-                <input id="e3" placeholder="Bibliographie (4)" type="number" min="0" max="4" step="0.25">
+                <label for="r3">Note #3 :</label>
+                <input id="r3" placeholder="Bibliographie (4)" type="number" min="0" max="4" step="0.25">
             </div>
 
             <div class="note-group">
-                <label for="e4">Etude et conception</label>
-                <input id="e4" placeholder="Analyse (5)" type="number" min="0" max="5" step="0.25">
+                <label for="r4">Note #4 :</label>
+                <input id="r4" placeholder="Analyse et dimensionnement (4)" type="number" min="0" max="4" step="0.25">
             </div>
 
             <div class="note-group">
-                <label for="e5">Synthèse et validation</label>
-                <input id="e5" placeholder="Synthèse (6)" type="number" min="0" max="6" step="0.25">
+                <label for="r5">Note #5 :</label>
+                <input id="r5" placeholder="Synthèse et validation (4)" type="number" min="0" max="4" step="0.25">
             </div>
 
             <label class="lbl">Note finale</label>
@@ -159,43 +159,43 @@
 
     <script>
 
-        let noteEncadrant = null;
+        let noteRapporteur = null;
 
         function updateSum() {
-            const e1 = parseFloat(document.getElementById('e1').value) || 0;
-            const e2 = parseFloat(document.getElementById('e2').value) || 0;
-            const e3 = parseFloat(document.getElementById('e3').value) || 0;
-            const e4 = parseFloat(document.getElementById('e4').value) || 0;
-            const e5 = parseFloat(document.getElementById('e5').value) || 0;
+            const r1 = parseFloat(document.getElementById('r1').value) || 0;
+            const r2 = parseFloat(document.getElementById('r2').value) || 0;
+            const r3 = parseFloat(document.getElementById('r3').value) || 0;
+            const r4 = parseFloat(document.getElementById('r4').value) || 0;
+            const r5 = parseFloat(document.getElementById('r5').value) || 0;
 
-            const etot = e1 + e2 + e3 + e4 + e5;
-            document.getElementById('note').innerText = etot;
-            noteEncadrant = {
-                e1: e1,
-                e2: e2,
-                e3: e3,
-                e4: e4,
-                e5: e5,
-                etot: etot
+            const rtot = r1 + r2 + r3 + r4 + r5;
+            document.getElementById('note').innerText = rtot;
+            noteRapporteur = {
+                r1: r1,
+                r2: r2,
+                r3: r3,
+                r4: r4,
+                r5: r5,
+                rtot: rtot
             };
         }
 
-        document.getElementById('e1').addEventListener('input', updateSum);
-        document.getElementById('e2').addEventListener('input', updateSum);
-        document.getElementById('e3').addEventListener('input', updateSum);
-        document.getElementById('e4').addEventListener('input', updateSum);
-        document.getElementById('e5').addEventListener('input', updateSum);
+        document.getElementById('r1').addEventListener('input', updateSum);
+        document.getElementById('r2').addEventListener('input', updateSum);
+        document.getElementById('r3').addEventListener('input', updateSum);
+        document.getElementById('r4').addEventListener('input', updateSum);
+        document.getElementById('r5').addEventListener('input', updateSum);
 
-        document.getElementById('note-encadrant').addEventListener('submit', function (event) {
+        document.getElementById('note-rapporteur').addEventListener('submit', function (event) {
 
             // Check if noteEncadrant is null
-            if (noteEncadrant === null) {
+            if (noteRapporteur === null) {
                 alert('Saisissez des notes avant de sauvegarder.');
                 return;
             }
 
             // Check if all fields are filled
-            if (!noteEncadrant.e1 || !noteEncadrant.e2 || !noteEncadrant.e3 || !noteEncadrant.e4 || !noteEncadrant.e5 || !noteEncadrant.etot) {
+            if (!noteRapporteur.r1 || !noteRapporteur.r2 || !noteRapporteur.r3 || !noteRapporteur.r4 || !noteRapporteur.r5 || !noteRapporteur.rtot) {
                 alert('Veuillez remplir tous les champs.');
                 return;
             }
@@ -205,11 +205,11 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(noteEncadrant)
+                body: JSON.stringify(noteRapporteur)
             };
 
             // Send data to server using fetch API
-            fetch('/api/encadrant', opts)
+            fetch('/api/rapporteur', opts)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');

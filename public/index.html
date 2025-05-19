@@ -25,29 +25,35 @@
             <div class="jury-buttons">
                 <!-- button onclick="encadrant()">Encadrant</button -->
                 <button onclick="window.open('encadrant.html', '_blank')">Encadrant</button>
-                <button onclick="rapporteur()">Rapporteur</button>
+                <button onclick="window.open('rapporteur.html', '_blank')">Rapporteur</button>
             </div>
             <br>
 
+            <form id="note-president">
             <div>
                 <label for="p1">Note #1 : </label>
-                <input type="number" min="0" max="3" step="0.25" id="p1" placeholder="*** (3 points)">
+                <input type="number" min="0" max="3" step="0.25" id="p1" placeholder="Qualité (3)">
             </div>
             <div>
                 <label for="p2">Note #2 : </label>
-                <input type="number" min="0" max="3" step="0.25" id="p2" placeholder="*** (3 points)">
+                <input type="number" min="0" max="3" step="0.25" id="p2" placeholder="Communication (3)">
             </div>
             <div>
                 <label for="p3">Note #3 : </label>
-                <input type="number" min="0" max="3" step="0.25" id="p3" placeholder="*** (3 points)">
+                <input type="number" min="0" max="8" step="0.25" id="p3" placeholder="Contenu (8)">
+            </div>
+            <div>
+                <label for="p4">Note #3 : </label>
+                <input type="number" min="0" max="6" step="0.25" id="p4" placeholder="Discussion (6)">
             </div>
             <br>
 
             <label class="lbl">Note finale</label>
             <div id="note" class="dynamic-label"></div>
             <br>
-            <button id="saveBtn">Sauvegardez</button>
+            <button type='submit' id="saveBtn">Sauvegardez</button>
             <button id="printBtn">Imprimez</button>
+            </form>
         </div>
         <!-- Right panel for PDF viewer -->
         <div class="right-panel" id="rapport">
