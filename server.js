@@ -15,7 +15,7 @@ const PORT = process.env.APP_PORT;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static('/var/isetbz/uploads'));
+app.use('/uploads', 'dir_pv', express.static('/var/isetbz/uploads'));
 
 // MongoDB connection
 const uri = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`;
@@ -24,15 +24,14 @@ mongoose.connect(uri);
 // Define a schema and model
 const DataSchema = new mongoose.Schema({
     notePresident: JSON,
+    noteRapporteur: JSON,
     noteEncadrant: JSON,
-    test: String,
 });
 
 const DataModel = mongoose.model(`${process.env.MONGO_COLLECTION_I}`, DataSchema);
 
 // Variables
 let student_id = null;
-let noteEncadrant = null;
 
 // Routes
 app.get('/api/data', async (req, res) => {
@@ -51,32 +50,33 @@ app.get('/api/data', async (req, res) => {
 });
 
 app.post('/api/president', async (req, res) => {
-    // const student_id = req.params.id;
     const notePresident = req.body;
-    console.log(student_id, notePresident);
     try {
-
-        const data2 = await DataModel.findByIdAndUpdate(student_id, { $set: { notePresident: notePresident }}, { new: true });
+        await DataModel.findByIdAndUpdate(student_id, { $set: { notePresident: notePresident } }, { new: true });
         return res.json({ msg: 'Données enregistrées avec succès !' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error updating data.' });
+    }
+});
 
+app.post('/api/rapporteur', async (req, res) => {
+    const noteRapporteur = req.body;
+    try {
+        await DataModel.findByIdAndUpdate(student_id, { $set: { noteRapporteur: noteRapporteur } }, { new: true });
+        return res.json({ msg: 'Données enregistrées avec succès !' });
     } catch (error) {
         res.status(500).json({ error: 'Error updating data.' });
     }
 });
 
 app.post('/api/encadrant', async (req, res) => {
-    noteEncadrant = req.body;
-    console.log(studentId, cin, noteEncadrant);
-
-try {
-
-    await DataModel.findByIdAndUpdate('6825b66fa8f51c642552bf43', { $set: noteEncadrant }, { new: true });
-    return res.json({ msg: 'Données enregistrées avec succès !' });
-
-  } catch (error) {
-    res.status(500).json({ error: 'Error updating data.' });
-  }
-
+    const noteEncadrant = req.body;
+    try {
+        await DataModel.findByIdAndUpdate(student_id, { $set: { noteEncadrant: noteEncadrant } }, { new: true });
+        return res.json({ msg: 'Données enregistrées avec succès !' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error updating data.' });
+    }
 });
 
 app.listen(PORT, HOSTNAME, () => {
