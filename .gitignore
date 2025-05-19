@@ -50,3 +50,8 @@ Thumbs.db
 
 .env
 package-lock.json
+.venv/bin
+.venv/lib/python3.12/site-packages
+.venv/lib64
+.venv/pyvenv.cfg
+dir_pv
