@@ -49,11 +49,12 @@ document.getElementById('retrieve-button').addEventListener('click', async funct
                 }
 
                 if (data[0].auth === false) {
-                    document.getElementById('student').innerHTML = `<h2 style="color: #333; font-size: 24px; margin: 0;">${data[0].prenom} ${data[0].nom}</h2><p style="color: #d32f2f; margin: 0;">Vous n'êtes pas autorisé à accéder à cette page.</p>`;
+                    document.getElementById('student').innerHTML = `<h2 style="color: #333; font-size: 24px; margin: 0;">${data[0].prenom} ${data[0].nom}</h2><p style="color: #d32f2f; margin: 0;">Vous n'êtes pas autorisé à éditer ce document.</p>`;
                     document.getElementById('rapporteur').hidden = true;
                     document.getElementById('encadrant').hidden = true;
                     document.getElementById('note-president').hidden = true;
                     document.getElementById('saveBtn').hidden = true;
+                    document.getElementById('bordereaux').hidden = true;
                     // document.getElementById('printBtn').hidden = true; ?
                     return;
                 }
@@ -88,6 +89,27 @@ document.getElementById('note-president').addEventListener('submit', function ()
         .catch(error => {
             console.error('Error:', error);
             alert('Failed to save data. Please try again.');
+        });
+    const obs = document.getElementById('obs').value || 'Rien à signaler';
+
+    fetch('/api/obs', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ obs })
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(() => {
+            console.log('Observation saved successfully');
+        })
+        .catch(error => {
+            console.error('Error saving observation:', error);
         });
 
 });

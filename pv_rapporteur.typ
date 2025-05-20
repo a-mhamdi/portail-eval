@@ -1,4 +1,6 @@
-#let pv(nom, prenom, cin, org, titre, notes, jury, date, content) = {
+#import "@preview/showybox:2.0.4": showybox
+
+#let pv(nom, prenom, cin, org, titre, notes, jury, date, ref, content) = {
 
   // Set the document's basic properties
   set text(font: "Delicious", size: 11pt)
@@ -34,17 +36,14 @@
   )
   
 
-  // Title row
-  align(center)[
-    #block(width: 80%, text(weight: "bold", size: 28pt, "Fiche de rapporteur"))
-  ]
+  align(center)[#showybox(
+    title-style: (boxed-style: (anchor: (x: right, y: horizon),)), 
+    frame: (:), // (title-color: black.lighten(70%)),
+    title: "2024-2025", 
+    width: 70%, 
+    [#align(center)[#block(width: 80%, text(weight: "bold", size: 28pt, "Fiche du rapporteur"))]])]
 
   v(.25cm)
-
-  // Author information
-  align(center)[
-    #block(text(weight: 400, size: 14pt, "Année Universitaire : 2024-2025"))
-  ]
 
   // Main body
   set par(justify: true)
@@ -84,7 +83,7 @@
 #let cin = "{{ cin }}"
 #let org = "{{ org }}"
 #let titre = "{{ titre }}"
-// #let identifiant = "{{ identifiant }}"
+#let ref = "{{ ref }}"
 #let rapporteur = parse_json("{{ notes }}")
 #let date = parse_json("{{ date }}")
 #let jury = parse_json("{{ jury }}")
@@ -111,11 +110,10 @@
   #table(
     columns: (5cm, 7cm),
     align: (left, center),
-    table.cell(colspan: 2, strong[ #titre ]),
+    table.cell(colspan: 2, align: center, strong[ #titre ]),
     [ *Nom et prénom* ], [ #nom #prenom ],
     [ *CIN* ], [ #cin ],
-    // [ *N° d'inscription* ], [ #identifiant ],
-    // [ *Classe* ], [ #classe ],
+    [ *Référence* ], [ #ref ],
     [ *Entreprise  d'accueil* ], [ #upper(org) ]
   )
 ]
@@ -132,31 +130,30 @@
     columns: (9cm, 3cm),
     inset: 10pt,
     align: (left, center),
-    [ *Exposé* _(3 points)_ ], [ #rapporteur.r1 ],
+    [ *Forme du rapport* _(4 points)_ ], [ #rapporteur.r1 ],
     table.cell(colspan: 2)[
-      - Qualité des transparents
-      - Organisation.
+      - Style
+      - Conformité au guide.
       ],
-    [ *Communication* _(3 points)_ ], [ #rapporteur.r2 ],
+    [ *Organisation du rapport* _(4 points)_ ], [ #rapporteur.r2 ],
     table.cell(colspan: 2)[
-      - Expression orale
-      - Rythme et éloquence.
+      - Clarté
+      - Qualité.
       ],
-    [ *Contenu* _(8 points)_ ], [ #rapporteur.r3 ],
+    [ *Bibliographie* _(4 points)_ ], [ #rapporteur.r3 ],
     table.cell(colspan: 2)[
-      - Taux de réalisation
-      - Pertinence des résultats
-      - Cohérence et validité des résultats.
+      - Etude de l'existant
+      - Analyse et critique.
     ],
-    [ *Discussion* _(6 points)_ ], [ #rapporteur.r4 ],
+    [ *Synthèse* _(4 points)_ ], [ #rapporteur.r4 ],
     table.cell(colspan: 2)[
-      - Qualité de la présentation
-      - Réponses aux questions.
+      - Choix des solutions
+      - Etude économique.
     ],
-    [ *Discussion* _(6 points)_ ], [ #rapporteur.r5 ],
+    [ *Validation* _(4 points)_ ], [ #rapporteur.r5 ],
     table.cell(colspan: 2)[
-      - Qualité de la présentation
-      - Réponses aux questions.
+      - Simulation numérique
+      - Essais pratiques.
     ],
     [ *Note globale* _(20 points)_ ], [ #rapporteur.rtot ],
   )
@@ -168,9 +165,11 @@
 
 #v(.05cm)
 
+/*
 #set table(
   fill: (_, y) => if y == 0 { rgb("EAF2F5") } else { none },
 )
+*/
 
 #set table.hline(stroke: 0.6pt)
 
@@ -179,14 +178,14 @@
     stroke: none,
     columns: (4cm, 4cm, 4cm),
     align: (center, center, center),
-    [ *Président* ], [ *Rapporteur*], [ *Encadrant(s)* ],
+    [ *Rapporteur* ],
     table.hline(),
-    [ #jury.president ], [ #jury.rapporteur ], [ #jury.encadrant ],
-    [], [], []
+    [ #jury.rapporteur ],
+    []
   )
 ]
 
 /* STOP */
 ]
 
-#show: doc => pv(nom, prenom, cin, org, titre, rapporteur, jury, date, content)
+#show: doc => pv(nom, prenom, cin, org, titre, rapporteur, jury, ref, date, content)

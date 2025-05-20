@@ -20,7 +20,7 @@
                 <button id="retrieve-button" class="retrieve-button">Récupérez</button>
                 <div id="student" class="result"></div>
             </div>
-            <strong>Bordereaux</strong> <a href="bordereaux.pdf" target="_blank" class="link"><strong>ici</strong></a>
+            <div id="bordereaux"><strong>Bordereaux</strong> <a href="bordereaux.pdf" target="_blank" class="link"><strong>ici</strong></a></div>
             <br><br>
 
             <!-- Bottom centered buttons -->
@@ -56,9 +56,13 @@
                 <label class="lbl">Note finale :</label>
                 <div id="note" class="dynamic-label"></div>
                 <br>
+                <div>
+                    <label for="obs">Observations : </label>
+                    <input type="text" id="obs" placeholder="Vos observations...">
+                </div>
+                <br>
                 <button type='submit' id="saveBtn">Sauvegardez</button>
             </form>
-            <br>
             <br>
             <button disabled class="print-button"
                 style="font-family: system-ui, -apple-system, sans-serif; font-size:16px; font-weight: 600;"

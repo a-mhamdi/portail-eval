@@ -1,4 +1,6 @@
-#let pv(nom, prenom, cin, org, titre, notes, jury, date, content) = {
+#import "@preview/showybox:2.0.4": showybox
+
+#let pv(nom, prenom, cin, org, titre, ref, notes, jury, date, content) = {
 
   // Set the document's basic properties
   set text(font: "Delicious", size: 11pt)
@@ -33,18 +35,17 @@
 
   )
   
-
-  // Title row
-  align(center)[
-    #block(width: 80%, text(weight: "bold", size: 28pt, "Fiche de soutenance"))
-  ]
+  align(center)[#showybox(
+    title-style: (boxed-style: (anchor: (x: right, y: horizon),)), 
+    frame: (:), // (title-color: black.lighten(70%)),
+    title: "2024-2025", 
+    width: 70%, 
+    [#align(center)[#block(width: 80%, text(weight: "bold", size: 28pt, "Fiche de soutenance"))]])]
 
   v(.25cm)
 
   // Author information
-  align(center)[
-    #block(text(weight: 400, size: 14pt, "Année Universitaire : 2024-2025"))
-  ]
+  // align(center)[#block(text(weight: 400, size: 14pt, "Année Universitaire : 2024-2025"))]
 
   // Main body
   set par(justify: true)
@@ -84,7 +85,7 @@
 #let cin = "{{ cin }}"
 #let org = "{{ org }}"
 #let titre = "{{ titre }}"
-// #let identifiant = "{{ identifiant }}"
+#let ref = "{{ ref }}"
 #let soutenance = parse_json("{{ notes }}")
 #let date = parse_json("{{ date }}")
 #let jury = parse_json("{{ jury }}")
@@ -111,14 +112,13 @@
   #table(
     columns: (5cm, 7cm),
     align: (left, center),
-    table.cell(colspan: 2, strong[ #titre ]),
+    table.cell(colspan: 2, align: center, strong[ #titre ]),
     [ *Nom et prénom* ], [ #nom #prenom ],
     [ *CIN* ], [ #cin ],
-    // [ *N° d'inscription* ], [ #identifiant ],
-    // [ *Classe* ], [ #classe ],
+    [ *Référence* ], [ #ref ],
     [ *Entreprise  d'accueil* ], [ #upper(org) ]
-  )
-]
+  )]
+
 
 #set table(
   fill: (_, y) => if calc.odd(y) { rgb("EEE") },
@@ -150,7 +150,7 @@
     ],
     [ *Discussion* _(6 points)_ ], [ #soutenance.p4 ],
     table.cell(colspan: 2)[
-      - Qualité de la présentation
+      - Rigueur scientifique
       - Réponses aux questions.
     ],
     [ *Note globale* _(20 points)_ ], [ #soutenance.ptot ],
@@ -184,4 +184,4 @@
 /* STOP */
 ]
 
-#show: doc => pv(nom, prenom, cin, org, titre, soutenance, jury, date, content)
+#show: doc => pv(nom, prenom, cin, org, titre, ref, soutenance, jury, date, content)

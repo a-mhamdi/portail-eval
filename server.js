@@ -1,3 +1,30 @@
+// HELPER FUNCTIONS
+function theDate() {
+    const now = new Date();
+
+    // Extract day, month, and year
+    const day = String(now.getDate()).padStart(2, '0'); // Add leading zero if needed
+    const month = String(now.getMonth() + 1).padStart(2, '0'); // Months are 0-based, so add 1
+    const year = now.getFullYear();
+
+    // Format the date as DD/MM/YYYY
+    return `${day}/${month}/${year}`;
+}
+
+function theTime() {
+    const now = new Date();
+
+    // Extract hours, minutes, and seconds
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+
+    // Format the time as HH:MM:SS
+    const time = `${hours}:${minutes}:${seconds}`;
+
+    return `${time}`;
+}
+
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -28,6 +55,9 @@ const DataSchema = new mongoose.Schema({
     notePresident: JSON,
     noteRapporteur: JSON,
     noteEncadrant: JSON,
+    date: JSON,
+    auth: Boolean,
+    obs: String,
 });
 
 const DataModel = mongoose.model(`${process.env.MONGO_COLLECTION_I}`, DataSchema);
@@ -53,8 +83,9 @@ app.get('/api/data', async (req, res) => {
 
 app.post('/api/president', async (req, res) => {
     const notePresident = req.body;
+    const date = { 'jour': theDate(), 'heure': theTime() };
     try {
-        await DataModel.findByIdAndUpdate(student_id, { $set: { notePresident: notePresident } }, { new: true });
+        await DataModel.findByIdAndUpdate(student_id, { $set: { notePresident: notePresident, date: date, auth: false } }, { new: true });
         return res.json({ msg: 'Données enregistrées avec succès !' });
     } catch (error) {
         res.status(500).json({ error: 'Error updating data.' });
@@ -75,6 +106,16 @@ app.post('/api/encadrant', async (req, res) => {
     const noteEncadrant = req.body;
     try {
         await DataModel.findByIdAndUpdate(student_id, { $set: { noteEncadrant: noteEncadrant } }, { new: true });
+        return res.json({ msg: 'Données enregistrées avec succès !' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error updating data.' });
+    }
+});
+
+app.post('/api/obs', async (req, res) => {
+    const obs = req.body.obs;
+    try {
+        await DataModel.findByIdAndUpdate(student_id, { $set: { obs: obs } }, { new: true });
         return res.json({ msg: 'Données enregistrées avec succès !' });
     } catch (error) {
         res.status(500).json({ error: 'Error updating data.' });

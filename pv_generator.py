@@ -25,7 +25,7 @@ def fetch_data_from_mongo(db_name, collection_name, cin):
 # Check if document is valid
 def validate_document(document):
     required_fields = ['nom', 'prenom', 'cin', 'jury',
-                       'org', 'titre', 'notePresident', 'noteRapporteur', 'noteEncadrant', 'date']
+                       'org', 'titre', 'ref', 'notePresident', 'noteRapporteur', 'noteEncadrant', 'date', 'obs']
     for field in required_fields:
         if field not in document:
             logging.warning(
@@ -48,7 +48,9 @@ def generate_typst_file(document, notes, date, template, cin, file_name):
             cin=document['cin'],
             org=document['org'],
             titre=document['titre'],
-            notes = notes,
+            ref=document['ref'],
+            obs=document['obs'],
+            notes=notes,
             jury=document['jury'],
             date=date
         )
@@ -139,13 +141,15 @@ def main():
         }).replace('"', "'")
 
         dt = document['date']
-        date = json.dumps({'jour': dt['jour'], 'heure': dt['heure']}).replace('"', "'")
+        date = json.dumps(
+            {'jour': dt['jour'], 'heure': dt['heure']}).replace('"', "'")
 
         # Render Typst content with data
         template_filler(document, date, cin, flag='s', notes=soutenance)
         template_filler(document, date, cin, flag='r', notes=rapporteur)
         template_filler(document, date, cin, flag='e', notes=encadrant)
         template_filler(document, date, cin, flag='j', notes=evaluation)
+
 
 # Run the script
 if __name__ == "__main__":

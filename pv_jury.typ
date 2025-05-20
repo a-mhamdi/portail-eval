@@ -1,4 +1,6 @@
-#let pv(nom, prenom, cin, org, titre, notes, jury, date, content) = {
+#import "@preview/showybox:2.0.4": showybox
+
+#let pv(nom, prenom, cin, org, titre, notes, jury, date, ref, obs, content) = {
 
   // Set the document's basic properties
   set text(font: "Delicious", size: 11pt)
@@ -33,18 +35,14 @@
 
   )
   
-
-  // Title row
-  align(center)[
-    #block(width: 80%, text(weight: "bold", size: 28pt, "Fiche de encadrant"))
-  ]
+    align(center)[#showybox(
+    title-style: (boxed-style: (anchor: (x: right, y: horizon),)), 
+    frame: (:), // (title-color: black.lighten(70%)),
+    title: "2024-2025", 
+    width: 70%, 
+    [#align(center)[#block(width: 80%, text(weight: "bold", size: 28pt, "Fiche de Jury"))]])]
 
   v(.25cm)
-
-  // Author information
-  align(center)[
-    #block(text(weight: 400, size: 14pt, "Année Universitaire : 2024-2025"))
-  ]
 
   // Main body
   set par(justify: true)
@@ -84,7 +82,8 @@
 #let cin = "{{ cin }}"
 #let org = "{{ org }}"
 #let titre = "{{ titre }}"
-// #let identifiant = "{{ identifiant }}"
+#let ref = "{{ ref }}"
+#let obs = "{{ obs }}"
 #let evaluation = parse_json("{{ notes }}")
 #let date = parse_json("{{ date }}")
 #let jury = parse_json("{{ jury }}")
@@ -111,11 +110,10 @@
   #table(
     columns: (5cm, 7cm),
     align: (left, center),
-    table.cell(colspan: 2, strong[ #titre ]),
+    table.cell(colspan: 2, align: center, strong[ #titre ]),
     [ *Nom et prénom* ], [ #nom #prenom ],
     [ *CIN* ], [ #cin ],
-    // [ *N° d'inscription* ], [ #identifiant ],
-    // [ *Classe* ], [ #classe ],
+    [ *Référence* ], [ #ref ],
     [ *Entreprise  d'accueil* ], [ #upper(org) ]
   )
 ]
@@ -132,31 +130,35 @@
     columns: (9cm, 3cm),
     inset: 10pt,
     align: (left, center),
-    [ *Exposé* _(3 points)_ ], [ #evaluation.ne #evaluation.ne_part],
-    table.cell(colspan: 2)[
-      - Qualité des transparents
-      - Organisation.
-      ],
-    [ *Communication* _(3 points)_ ], [ #evaluation.nr #evaluation.nr_part ],
-    table.cell(colspan: 2)[
-      - Expression orale
-      - Rythme et éloquence.
-      ],
-    [ *Contenu* _(8 points)_ ], [ #evaluation.np #evaluation.np_part ],
-    table.cell(colspan: 2)[
-      - Taux de réalisation
-      - Pertinence des résultats
-      - Cohérence et validité des résultats.
-    ],
-    [ *Note globale* _(20 points)_ ], [ #evaluation.ntot ],
+    [ *Note de l'encadrant* _(20 points)_ ], [ #evaluation.ne],
+    table.cell(colspan: 2, align: right)[$0.3 times #evaluation.ne = #evaluation.ne_part$],
+    [ *Note du rapporteur* _(20 points)_ ], [  #evaluation.nr],
+    table.cell(colspan: 2, align: right)[$0.3 times #evaluation.nr = #evaluation.nr_part$],
+    [ *Note de la soutenance* _(#20 points)_ ], [  #evaluation.np],
+    table.cell(colspan: 2, align: right)[$0.4 times #evaluation.np = #evaluation.np_part$],
+    [ *Note globale*#footnote($"Note globale" = 0.3 times "note de l'encadrant" + 0.3 times "note du rapporteur" + 0.4 times "note de la soutenance"$) _(20 points)_ ], [ #evaluation.ntot ],
   )
 ]
 
 #v(.25cm)
 
+#set table(
+  fill: luma(230).lighten(70%),
+)
+
+#align(center)[
+  #table(
+    stroke: none,
+    columns: (12cm),
+    align: (left),
+    [*Observations* : #obs ],
+  )]
+
+#v(.25cm)
+
   L'étudiant(e) a été évalué(e) le #date.jour à #date.heure par :
 
-#v(.05cm)
+#v(.25cm)
 
 #set table(
   fill: (_, y) => if y == 0 { rgb("EAF2F5") } else { none },
@@ -179,4 +181,4 @@
 /* STOP */
 ]
 
-#show: doc => pv(nom, prenom, cin, org, titre, evaluation, jury, date, content)
+#show: doc => pv(nom, prenom, cin, org, obs, titre, evaluation, jury, date, ref, content)
