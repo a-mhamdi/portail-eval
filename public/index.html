@@ -15,50 +15,65 @@
         <!-- Left panel with input and retrieve button -->
         <div class="left-panel">
             <div class="input-group">
-                <label for="input-field">Cherchez un étudiant:</label>
+                <label for="input-field">Cherchez un étudiant : </label>
                 <input type="text" id="cin" placeholder="Saisissez n° CIN...">
                 <button id="retrieve-button" class="retrieve-button">Récupérez</button>
                 <div id="student" class="result"></div>
             </div>
+            <strong>Bordereaux</strong> <a href="bordereaux.pdf" target="_blank" class="link"><strong>ici</strong></a>
+            <br><br>
 
             <!-- Bottom centered buttons -->
             <div class="jury-buttons">
                 <!-- button onclick="encadrant()">Encadrant</button -->
-                <button onclick="window.open('encadrant.html', '_blank')">Encadrant</button>
-                <button onclick="window.open('rapporteur.html', '_blank')">Rapporteur</button>
+                <button id="rapporteur" onclick="window.open('encadrant.html', '_blank')">Encadrant</button>
+                <button id="encadrant" onclick="window.open('rapporteur.html', '_blank')">Rapporteur</button>
             </div>
             <br>
 
             <form id="note-president">
-            <div>
-                <label for="p1">Note #1 : </label>
-                <input type="number" min="0" max="3" step="0.25" id="p1" placeholder="Qualité (3)">
-            </div>
-            <div>
-                <label for="p2">Note #2 : </label>
-                <input type="number" min="0" max="3" step="0.25" id="p2" placeholder="Communication (3)">
-            </div>
-            <div>
-                <label for="p3">Note #3 : </label>
-                <input type="number" min="0" max="8" step="0.25" id="p3" placeholder="Contenu (8)">
-            </div>
-            <div>
-                <label for="p4">Note #3 : </label>
-                <input type="number" min="0" max="6" step="0.25" id="p4" placeholder="Discussion (6)">
-            </div>
-            <br>
+                <div>
+                    <label for="p1">Note #1 : </label>
+                    <input type="number" min="0" max="3" step="0.25" id="p1" placeholder="Qualité (3)">
+                </div>
+                <br>
+                <div>
+                    <label for="p2">Note #2 : </label>
+                    <input type="number" min="0" max="3" step="0.25" id="p2" placeholder="Communication (3)">
+                </div>
+                <br>
+                <div>
+                    <label for="p3">Note #3 : </label>
+                    <input type="number" min="0" max="8" step="0.25" id="p3" placeholder="Contenu (8)">
+                </div>
+                <br>
+                <div>
+                    <label for="p4">Note #4 : </label>
+                    <input type="number" min="0" max="6" step="0.25" id="p4" placeholder="Discussion (6)">
+                </div>
+                <br>
 
-            <label class="lbl">Note finale</label>
-            <div id="note" class="dynamic-label"></div>
-            <br>
-            <button type='submit' id="saveBtn">Sauvegardez</button>
-            <button id="printBtn">Imprimez</button>
+                <label class="lbl">Note finale :</label>
+                <div id="note" class="dynamic-label"></div>
+                <br>
+                <button type='submit' id="saveBtn">Sauvegardez</button>
             </form>
+            <br>
+            <br>
+            <button disabled class="print-button"
+                style="font-family: system-ui, -apple-system, sans-serif; font-size:16px; font-weight: 600;"
+                id="printBtn">
+                <svg class="print-button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                    fill="currentColor">
+                    <path
+                        d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z" />
+                </svg>
+                Imprimez les documents
+            </button>
         </div>
         <!-- Right panel for PDF viewer -->
         <div class="right-panel" id="rapport">
             <p>Chargez un PDF ici</p>
-            <!-- PDF viewer will be loaded here -->
         </div>
     </div>
 

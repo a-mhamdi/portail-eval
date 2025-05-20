@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LES FICHES D'EVALUATION</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .pdf-tabs {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            display: flex;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .tab-button {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            padding: 10px 20px;
+            border: 1px solid #ccc;
+            border-bottom: none;
+            background-color: #f1f1f1;
+            cursor: pointer;
+            margin-right: 5px;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .tab-button.active {
+            background-color: #fff;
+            border-bottom: 1px solid #fff;
+            margin-bottom: -1px;
+        }
+
+        .pdf-container {
+            height: 80vh;
+            border: 1px solid #ccc;
+            margin-top: -1px;
+            background-color: #fff;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .pdf-frame {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .pdf-frame.active {
+            display: block;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>LES FICHES D'EVALUATION</h1>
+        <div class="pdf-tabs" id="pdfTabs"></div>
+        <div class="pdf-container" id="pdfContainer">
+            <div class="loading" id="loading">Loading PDFs...</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Parse URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const cin = urlParams.get('cin');
+            const fileTypes = urlParams.get('files') ? urlParams.get('files').split(',') : [];
+
+            const tabLabels = {
+                'jury': 'Jury',
+                'soutenance': 'Soutenance',
+                'rapporteur': 'Rapporteur',
+                'encadrant': 'Encadrant'
+            };
+
+            const tabsContainer = document.getElementById('pdfTabs');
+            const pdfContainer = document.getElementById('pdfContainer');
+            const loadingElement = document.getElementById('loading');
+
+            if (!cin || fileTypes.length === 0) {
+                pdfContainer.innerHTML = '<div class="error-message">Error: Missing CIN or file parameters</div>';
+                loadingElement.style.display = 'none';
+                return;
+            }
+
+            // Create tabs and frames for each PDF
+            fileTypes.forEach((fileType, index) => {
+                // Create tab button
+                const tabButton = document.createElement('button');
+                tabButton.className = 'tab-button' + (index === 0 ? ' active' : '');
+                tabButton.textContent = tabLabels[fileType] || fileType;
+                tabButton.dataset.target = `pdf-${fileType}`;
+                tabsContainer.appendChild(tabButton);
+
+                // Create iframe for PDF
+                const frame = document.createElement('iframe');
+                frame.className = 'pdf-frame' + (index === 0 ? ' active' : '');
+                frame.id = `pdf-${fileType}`;
+                frame.src = `dir_pv/${cin}/${cin}_${fileType}.pdf`;
+                frame.title = tabLabels[fileType] || fileType;
+
+                // Handle loading and errors
+                frame.onload = function () {
+                    loadingElement.style.display = 'none';
+                };
+
+                frame.onerror = function () {
+                    frame.innerHTML = `<div class="error-message">Failed to load ${tabLabels[fileType] || fileType} PDF</div>`;
+                };
+
+                pdfContainer.appendChild(frame);
+            });
+
+            // Add click event listeners to tabs
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.addEventListener('click', function () {
+                    // Remove active class from all tabs and frames
+                    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.pdf-frame').forEach(f => f.classList.remove('active'));
+
+                    // Add active class to clicked tab and corresponding frame
+                    this.classList.add('active');
+                    document.getElementById(this.dataset.target).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

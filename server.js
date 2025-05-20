@@ -3,8 +3,9 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const path = require('path');
+const { exec } = require('child_process');
 
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
@@ -15,7 +16,8 @@ const PORT = process.env.APP_PORT;
 app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', 'dir_pv', express.static('/var/isetbz/uploads'));
+app.use('/uploads', express.static('/var/isetbz/uploads'));
+app.use('/dir_pv', express.static(path.join(__dirname, 'dir_pv')));
 
 // MongoDB connection
 const uri = `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`;
@@ -77,6 +79,18 @@ app.post('/api/encadrant', async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: 'Error updating data.' });
     }
+});
+
+app.post('/api/print', (req, res) => {
+    const cin = req.body.cin;
+    const pv_generator = `./pv_generator.sh ${cin}`;
+
+    exec(pv_generator, (error, stdout, stderr) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+        res.json({ output: stdout, error: stderr });
+    });
 });
 
 app.listen(PORT, HOSTNAME, () => {

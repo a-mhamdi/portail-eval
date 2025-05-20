@@ -217,11 +217,13 @@
                     return response.json();
                 })
                 .then(data => {
+                    if (!data.success) {
+                        throw new Error('Erreur ! Vérifiez la CIN de l\'étudiant.');
+                    }
                     window.location.href = 'thanks.html'; // redirect after saving
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert('Failed to save data. Please try again.');
+                    alert(error.message);
                 });
         });
     </script>
