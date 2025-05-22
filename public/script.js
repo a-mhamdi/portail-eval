@@ -33,7 +33,7 @@ document.getElementById('retrieve-button').addEventListener('click', async funct
 
                 document.getElementById('student').innerHTML = `<h2 style="color: #333; font-size: 24px; margin: 0;">${student}</h2>`;
 
-                const thePDFfile = `/uploads/raia/${student_id}.pdf`;
+                const thePDFfile = `/uploads/raia/${cin}.pdf`;
 
                 checkFileExists(thePDFfile)
                     .then(exists => {

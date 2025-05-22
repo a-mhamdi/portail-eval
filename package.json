@@ -5,15 +5,15 @@
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "mongoose": "^8.14.3",
-    "nodemon": "^3.1.10",
-    "path": "^0.12.7",
-    "webpack": "^5.99.8"
+    "path": "^0.12.7"
   },
   "scripts": {
     "dev": "nodemon server.js",
     "build": "webpack --mode development --watch"
   },
   "devDependencies": {
+    "nodemon": "^3.1.10",
+    "webpack": "^5.99.9",
     "webpack-cli": "^6.0.1"
   }
 }

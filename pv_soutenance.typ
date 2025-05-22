@@ -1,12 +1,11 @@
 #import "@preview/showybox:2.0.4": showybox
 
 #let pv(nom, prenom, cin, org, titre, ref, notes, jury, date, content) = {
-
   // Set the document's basic properties
   set text(font: "Delicious", size: 11pt)
 
   set document(author: "Dept de génie électrique", title: "Fiche d'évaluation")
-  
+
   set page(
     margin: (left: 2cm, right: 2cm, top: 3cm, bottom: 3cm),
     numbering: none,
@@ -14,16 +13,16 @@
     header: [
       #set text(10pt)
       #grid(
-      	columns: (2fr, auto),
-      	align : (left, center),
-      	grid(
-      		columns: (auto),
-      		gutter: 10pt,
-      		"Institut Supérieur des Études Technologiques de Bizerte", "Département de Génie électrique"
-      		),
-  		image("../ISETBZ.png", height: 60%),
-      	) 
-      	#line(length: 60%)
+        columns: (2fr, auto),
+        align: (left, center),
+        grid(
+          columns: auto,
+          gutter: 10pt,
+          "Institut Supérieur des Études Technologiques de Bizerte", "Département de Génie électrique"
+        ),
+        image("../ISETBZ.png", height: 60%),
+      )
+      #line(length: 60%)
     ],
     header-ascent: 30%,
     footer: [
@@ -31,16 +30,16 @@
       #align(center)[#line(length: 100%) ISET Bizerte BP. 65 - Campus universitaire 7035 Menzel Abderrahmen \ Tél : 72 57 06 01 Fax : 72 57 24 55 e-Mail : #link("mailto:isetbz@isetbz.rnu.tn")
       ]
     ],
-    footer-descent: 20%
-
+    footer-descent: 20%,
   )
-  
+
   align(center)[#showybox(
-    title-style: (boxed-style: (anchor: (x: right, y: horizon),)), 
-    frame: (:), // (title-color: black.lighten(70%)),
-    title: "2024-2025", 
-    width: 70%, 
-    [#align(center)[#block(width: 80%, text(weight: "bold", size: 28pt, "Fiche de soutenance"))]])]
+      title-style: (boxed-style: (anchor: (x: right, y: horizon))),
+      frame: (:), // (title-color: black.lighten(70%)),
+      title: "2024-2025",
+      width: 70%,
+      [#align(center)[#block(width: 80%, text(weight: "bold", size: 28pt, "Fiche de soutenance"))]],
+    )]
 
   v(.25cm)
 
@@ -49,7 +48,7 @@
 
   // Main body
   set par(justify: true)
-  
+
   content
 }
 
@@ -60,13 +59,13 @@
   } else {
     json_string
   }
-  
+
   // Remove the curly braces
   let content = cleaned.slice(1, -1)
-  
+
   // Split into key-value pairs
   let pairs = content.split(", ")
-  
+
   // Parse each pair into a dictionary
   let result = (:)
   for pair in pairs {
@@ -76,7 +75,7 @@
     value = value.slice(1, -1)
     result.insert(key, value)
   }
-  
+
   return result
 }
 
@@ -91,97 +90,95 @@
 #let jury = parse_json("{{ jury }}")
 
 #let content = [
-/* START */
+  /* START */
 
-// See the strokes section for details on this!
-#let frame(stroke) = (x, y) => (
-  left: if x > 0 { 0pt } else { stroke },
-  right: stroke,
-  top: if y < 1 { stroke } else { 0pt },
-  bottom: stroke,
-)
-
-#set table(
-  fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
-  stroke: frame(rgb("21222C")),
-)
-
-#v(.25cm)
-
-#align(center)[
-  #table(
-    columns: (5cm, 7cm),
-    align: (left, center),
-    table.cell(colspan: 2, align: center, strong[ #titre ]),
-    [ *Nom et prénom* ], [ #nom #prenom ],
-    [ *CIN* ], [ #cin ],
-    [ *Référence* ], [ #ref ],
-    [ *Entreprise  d'accueil* ], [ #upper(org) ]
-  )]
-
-
-#set table(
-  fill: (_, y) => if calc.odd(y) { rgb("EEE") },
-  stroke: frame(rgb("21222C")),
-)
-
-#v(.25cm)
-
-#align(center)[
-  #table(
-    columns: (9cm, 3cm),
-    inset: 10pt,
-    align: (left, center),
-    [ *Exposé* _(3 points)_ ], [ #soutenance.p1 ],
-    table.cell(colspan: 2)[
-      - Qualité des transparents
-      - Organisation.
-      ],
-    [ *Communication* _(3 points)_ ], [ #soutenance.p2 ],
-    table.cell(colspan: 2)[
-      - Expression orale
-      - Rythme et éloquence.
-      ],
-    [ *Contenu* _(8 points)_ ], [ #soutenance.p3 ],
-    table.cell(colspan: 2)[
-      - Taux de réalisation
-      - Pertinence des résultats
-      - Cohérence et validité des résultats.
-    ],
-    [ *Discussion* _(6 points)_ ], [ #soutenance.p4 ],
-    table.cell(colspan: 2)[
-      - Rigueur scientifique
-      - Réponses aux questions.
-    ],
-    [ *Note globale* _(20 points)_ ], [ #soutenance.ptot ],
+  // See the strokes section for details on this!
+  #let frame(stroke) = (x, y) => (
+    left: if x > 0 { 0pt } else { stroke },
+    right: stroke,
+    top: if y < 1 { stroke } else { 0pt },
+    bottom: stroke,
   )
-]
 
-#v(.25cm)
+  #set table(
+    fill: (_, y) => if calc.odd(y) { rgb("EAF2F5") },
+    stroke: frame(rgb("21222C")),
+  )
+
+  #v(.25cm)
+
+  #align(center)[
+    #table(
+      columns: (5cm, 7cm),
+      align: (left, center),
+      table.cell(colspan: 2, align: center, strong[ #titre ]),
+      [ *Nom et prénom* ], [ #nom #prenom ],
+      [ *CIN* ], [ #cin ],
+      [ *Référence* ], [ #ref ],
+      [ *Entreprise d'accueil* ], [ #upper(org) ]
+    )]
+
+
+  #set table(
+    fill: (_, y) => if calc.odd(y) { rgb("EEE") },
+    stroke: frame(rgb("21222C")),
+  )
+
+  #v(.25cm)
+
+  #align(center)[
+    #table(
+      columns: (9cm, 3cm),
+      inset: 10pt,
+      align: (left, center),
+      [ *Exposé* _(3 points)_ ], [ #soutenance.p1 ],
+      table.cell(colspan: 2)[
+        - Qualité des transparents
+        - Organisation.
+      ],
+      [ *Communication* _(3 points)_ ], [ #soutenance.p2 ],
+      table.cell(colspan: 2)[
+        - Expression orale
+        - Rythme et éloquence.
+      ],
+      [ *Contenu* _(8 points)_ ], [ #soutenance.p3 ],
+      table.cell(colspan: 2)[
+        - Taux de réalisation
+        - Pertinence des résultats
+        - Cohérence et validité des résultats.
+      ],
+      [ *Discussion* _(6 points)_ ], [ #soutenance.p4 ],
+      table.cell(colspan: 2)[
+        - Rigueur scientifique
+        - Réponses aux questions.
+      ],
+      [ *Note globale* _(20 points)_ ], [ #soutenance.ptot ],
+    )
+  ]
+
+  #v(.25cm)
 
   L'étudiant(e) a été évalué(e) le #date.jour à #date.heure par :
 
-#v(.05cm)
+  #v(.05cm)
 
-#set table(
-  fill: (_, y) => if y == 0 { rgb("EAF2F5") } else { none },
-)
+  #set table(fill: (_, y) => if y == 0 { rgb("EAF2F5") } else { none })
 
-#set table.hline(stroke: 0.6pt)
+  #set table.hline(stroke: 0.6pt)
 
-#align(center)[
-  #table(
-    stroke: none,
-    columns: (4cm, 4cm, 4cm),
-    align: (center, center, center),
-    [ *Président* ], [ *Rapporteur*], [ *Encadrant(s)* ],
-    table.hline(),
-    [ #jury.president ], [ #jury.rapporteur ], [ #jury.encadrant ],
-    [], [], []
-  )
-]
+  #align(center)[
+    #table(
+      stroke: none,
+      columns: (4cm, 4cm, 4cm),
+      align: (center, center, center),
+      [ *Président* ], [ *Rapporteur*], [ *Encadrant(s)* ],
+      table.hline(),
+      [ #jury.president ], [ #jury.rapporteur ], [ #jury.encadrant ],
+      [], [], []
+    )
+  ]
 
-/* STOP */
+  /* STOP */
 ]
 
 #show: doc => pv(nom, prenom, cin, org, titre, ref, soutenance, jury, date, content)

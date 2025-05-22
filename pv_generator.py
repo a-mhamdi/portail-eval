@@ -47,7 +47,7 @@ def generate_typst_file(document, notes, date, template, cin, file_name):
             prenom=document['prenom'],
             cin=document['cin'],
             org=document['org'],
-            titre=document['titre'],
+            titre=document['titre'].upper(),
             ref=document['ref'],
             obs=document['obs'],
             notes=notes,

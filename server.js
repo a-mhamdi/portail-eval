@@ -63,7 +63,7 @@ const DataSchema = new mongoose.Schema({
 const DataModel = mongoose.model(`${process.env.MONGO_COLLECTION_I}`, DataSchema);
 
 // Variables
-let student_id = null;
+let cin = null;
 
 // Routes
 app.get('/api/data', async (req, res) => {
@@ -73,7 +73,7 @@ app.get('/api/data', async (req, res) => {
         if (!data) {
             return res.status(404).json({ error: 'Data not found' });
         }
-        student_id = data[0]._id;
+        cin = data[0].cin;
         res.json(data);
     } catch (error) {
         console.error('Error retrieving data:', error);
