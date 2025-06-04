@@ -111,7 +111,7 @@ document.getElementById('note-president').addEventListener('submit', function ()
         .catch(error => {
             console.error('Error saving observation:', error);
         });
-
+    // location.reload(true);
 });
 
 let notePresident = null;
@@ -138,7 +138,7 @@ document.getElementById('p2').addEventListener('input', updateSum);
 document.getElementById('p3').addEventListener('input', updateSum);
 document.getElementById('p4').addEventListener('input', updateSum);
 
-document.getElementById('printBtn').addEventListener('click', async function () {
+document.getElementById('printBtn').addEventListener('click', function () {
 
     try {
         fetch('/api/print', {
