@@ -15,7 +15,7 @@ if [[ "$1" == "" ]]
 		exit 1
 fi
 
-$HOME/work/raia/eval-portal/pv_generator.py $1
+./pv_generator.py $1
 
 echo "GENERATING PDF FILES..."
 for filename in $(ls -la dir_pv/$1 | grep .typ | awk '{print $9}');
