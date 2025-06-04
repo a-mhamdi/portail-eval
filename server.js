@@ -63,16 +63,18 @@ const DataSchema = new mongoose.Schema({
 const DataModel = mongoose.model(`${process.env.MONGO_COLLECTION_I}`, DataSchema);
 
 // Variables
+let studentId = null;
 let cin = null;
 
 // Routes
 app.get('/api/data', async (req, res) => {
-    cin = req.query.cin;
+    const cinPara = req.query.cin;
     try {
-        const data = await DataModel.find({ cin: cin });
+        const data = await DataModel.find({ cin: cinPara });
         if (!data) {
             return res.status(404).json({ error: 'Data not found' });
         }
+        studentId = data[0]._id;
         cin = data[0].cin;
         res.json(data);
     } catch (error) {
@@ -85,7 +87,7 @@ app.post('/api/president', async (req, res) => {
     const notePresident = req.body;
     const date = { 'jour': theDate(), 'heure': theTime() };
     try {
-        await DataModel.findByIdAndUpdate(student_id, { $set: { notePresident: notePresident, date: date, auth: false } }, { new: true });
+        await DataModel.findByIdAndUpdate(studentId, { $set: { notePresident: notePresident, date: date, auth: false } }, { new: true });
         return res.json({ msg: 'Données enregistrées avec succès !' });
     } catch (error) {
         res.status(500).json({ error: 'Error updating data.' });
@@ -95,8 +97,8 @@ app.post('/api/president', async (req, res) => {
 app.post('/api/rapporteur', async (req, res) => {
     const noteRapporteur = req.body;
     try {
-        await DataModel.findByIdAndUpdate(student_id, { $set: { noteRapporteur: noteRapporteur } }, { new: true });
-        return res.json({ msg: 'Données enregistrées avec succès !' });
+        await DataModel.findByIdAndUpdate(studentId, { $set: { noteRapporteur: noteRapporteur } }, { new: true });
+        return res.json({ success: true, msg: 'Données enregistrées avec succès !' });
     } catch (error) {
         res.status(500).json({ error: 'Error updating data.' });
     }
@@ -105,8 +107,11 @@ app.post('/api/rapporteur', async (req, res) => {
 app.post('/api/encadrant', async (req, res) => {
     const noteEncadrant = req.body;
     try {
-        await DataModel.findByIdAndUpdate(student_id, { $set: { noteEncadrant: noteEncadrant } }, { new: true });
-        return res.json({ msg: 'Données enregistrées avec succès !' });
+        const encadrant = await DataModel.findByIdAndUpdate(studentId, { $set: { noteEncadrant: noteEncadrant } }, { new: true });
+        if (!encadrant) {
+            return res.status(404).json({ error: 'Student not found' });
+        }
+        return res.json({ success: true, msg: 'Données enregistrées avec succès !' });
     } catch (error) {
         res.status(500).json({ error: 'Error updating data.' });
     }
@@ -115,7 +120,7 @@ app.post('/api/encadrant', async (req, res) => {
 app.post('/api/obs', async (req, res) => {
     const obs = req.body.obs;
     try {
-        await DataModel.findByIdAndUpdate(student_id, { $set: { obs: obs } }, { new: true });
+        await DataModel.findByIdAndUpdate(studentId, { $set: { obs: obs } }, { new: true });
         return res.json({ msg: 'Données enregistrées avec succès !' });
     } catch (error) {
         res.status(500).json({ error: 'Error updating data.' });
