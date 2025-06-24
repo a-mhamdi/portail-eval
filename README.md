@@ -4,7 +4,7 @@
 Pour lancer le serveur, il suffit de tapper la commande suivante:
 
 ```bash
-pm2 start ecosystem.config.cjs --env production
+pm2 start ecosystem.config.js --env production
 ```
 
 ![Portail](portail.png)
